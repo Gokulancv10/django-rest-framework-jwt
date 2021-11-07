@@ -40,7 +40,7 @@ class CustomJwtObtainPairView(TokenObtainPairView):
     serializer_class = CustomJwtTokenObtainPairSerializer
 
 
-class HomeView(views.APIView):
+class HomeView(generics.GenericAPIView):
     """
     Home page API
     """
@@ -52,7 +52,7 @@ class HomeView(views.APIView):
         return Response({"message": message})
 
 
-class UserRegisterView(views.APIView):
+class UserRegisterView(generics.GenericAPIView):
     """
     User Registration API
 
@@ -72,7 +72,7 @@ class UserRegisterView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserLoginView(views.APIView):
+class UserLoginView(generics.GenericAPIView):
     """
     User Login API
 
