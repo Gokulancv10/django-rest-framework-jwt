@@ -51,16 +51,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate_email(self, value):
         email = User.objects.filter(email=value).exists()
         if email:
-            raise serializers.ValidationError(
-                {"email": "The email is already in use"}
-            )
+            raise serializers.ValidationError({"email": "The email is already in use"})
         return value
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True, min_length=3, max_length=69)
-    password = serializers.CharField(required=True, write_only=True,
-        min_length=3, max_length=69)
+    password = serializers.CharField(
+        required=True, write_only=True, min_length=3, max_length=69
+    )
     token = serializers.SerializerMethodField("get_simple_jwt_token")
 
     class Meta:
