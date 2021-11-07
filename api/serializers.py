@@ -32,7 +32,7 @@ class CustomJwtTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=50, required=True)
+    username = serializers.CharField(max_length=69, min_length=6, required=True)
     email = serializers.EmailField(required=True, allow_null=False)
     password = serializers.CharField(max_length=69, min_length=6, write_only=True)
 
@@ -58,12 +58,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=True, min_length=3, max_length=69)
+    password = serializers.CharField(required=True, write_only=True,
+        min_length=3, max_length=69)
     token = serializers.SerializerMethodField("get_simple_jwt_token")
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "token")
-        read_only_fields = ["token"]
+        fields = ("id", "username", "email", "password", "token")
+        read_only_fields = ["token", "email"]
 
     def get_pyjwt_token(self, obj):
         """
